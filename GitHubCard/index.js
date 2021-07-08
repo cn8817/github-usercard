@@ -1,8 +1,17 @@
+import axios from 'axios'
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+
+axios.get('https://api.github.com/users/cn8817')
+  .then(res => {
+    usercard(res.data)
+    console.log(res.data)
+  })
+  .catch(err => console.log(err.message))
+  .finally(() => console.log('done'))
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -16,6 +25,9 @@
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
 */
+const cards = document.querySelector('.cards')
+const induce = usercard()
+cards.appendChild(induce)
 
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
@@ -49,7 +61,45 @@ const followersArray = [];
       </div>
     </div>
 */
+function usercard(avatar_url, name, login, location, html_url, followers, following, bio){
+  const card = document.createElement('div')
+  const image = document.createElement('img')
+  const cardInfo = document.createElement('div')
+  const nameH3 = document.createElement('h3')
+  const username = document.createElement('p')
+  const locationP = document.createElement('p')
+  const profileP = document.createElement('p')
+  const followersP = document.createElement('p')
+  const followingP = document.createElement('p')
+  const bioP = document.createElement('p')
 
+  card.appendChild(image)
+  card.appendChild(cardInfo)
+  cardInfo.appendChild(nameH3)
+  cardInfo.appendChild(username)
+  cardInfo.appendChild(locationP)
+  cardInfo.appendChild(profileP)
+  cardInfo.appendChild(followersP)
+  cardInfo.appendChild(followingP)
+  cardInfo.appendChild(bioP)
+
+  card.classList.add('card')
+  cardInfo.classList.add('card-info')
+  nameH3.classList.add('name')
+  username.classList.add('username')
+
+  image.src = avatar_url
+  nameH3.textContent = `${name}`
+  username.textContent = `${login}`
+  locationP.textContent = `Location: ${location}`
+  profileP.href = html_url
+  profileP.textContent = `Profile: ${html_url}`
+  followersP.textContent = `Followers: ${followers}`
+  followingP.textContent = `Following: ${following}`
+  bioP.textContent = `Bio: ${bio}`
+
+return card
+}
 /*
   List of LS Instructors Github username's:
     tetondan
